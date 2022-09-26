@@ -3,9 +3,64 @@ info:
   title: Shop
   version: 0.0.1
 paths:
+  /kittens:
+    get:
+      summary: List all Kittens
+      responses:
+        401:
+          description: No token or wrong one
+          content:
+            application/vnd.kitten.shop.v1+json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: "Not authorized"
+                  description:
+                    type: string
+                    example: "Wrong token in Authentication header"
+
+        403:
+          description: Not authorized
+        200:
+          description: Return list of kittens
+          content:
+            application/vnd.kitten.shop.v1+json:
+              schema:
+                type: object
+                properties:
+                  pagination:
+                    type: object
+                    properties:
+                      next_page:
+                        type: string
+                        example: "/kittens?cursor=example_string_123"
+                      previous_page:
+                        type: string
+                        example: "/kittens?cursor=example_string_312"
+                  data:
+                    type: array
+                    items:
+                      $ref: '#components/schemas/kitten'
 security:
    - ApiKey: []                
 components:
+  schemas:
+    kitten:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: ID of Kitten
+        price_usd_cents:
+          type: number
+          description: Price of Kitten in USD cents
+          example: 4399
+        name:
+          type: string
+          example: "Super kitten"
   securitySchemes:
       ApiKey:
          type: apiKey
