@@ -1,0 +1,69 @@
+openapi: 3.0.0
+info:
+  title: Pricing service
+  version: 0.0.1
+paths:
+  /items/{id}/price:
+    get:
+      summary: Get price for item
+      parameters:
+        - in: path
+          required: true
+          name: id
+          example: "acde070d-8c4c-4f0d-9d8a-162843c10333"
+          schema: 
+            type: string
+            format: uuid
+      responses:
+        200:
+          description: Return price for an item
+          content:
+            application/json:
+              schema:
+                $ref: '#components/schemas/ItemPrice'
+
+        401:
+          description: No token or wrong one
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: "Not authorized"
+                  decription:
+                    type: string
+                    example: "Wrong token priveded in Auth "
+        404:  
+          description: Not found
+
+security:
+   - ApiKey: []
+components:
+  schemas:
+    ItemPrice:
+      type: object
+      properties:
+          isd:
+            type: string
+            format: uuid
+            example: "acde070d-8c4c-4f0d-9d8a-162843c10333"
+            description: Id of the item
+          price_usd_cents:
+            type: integer
+            format: email
+            example: 150
+            description: Price of an item in USD cents
+          price_eur_cents:
+            type: integer
+            format: email
+            example: 150
+            description: Price of an item in eurocents
+  securitySchemes:
+      ApiKey:
+         type: apiKey
+         name: Authorization
+         in: header
+         description: 'Use api key provided by developmment portal' 
+ 
