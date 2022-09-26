@@ -3,66 +3,9 @@ info:
   title: Shop
   version: 0.0.1
 paths:
-  /items:
-    get:
-      summary: List all items
-      responses:
-        401:
-          description: No token or wrong one
-          content:
-            application/vnd.company.shop.v1+json:
-              schema:
-                type: object
-                properties:
-                  error:
-                    type: string
-                    example: "Not authorized"
-                  description:
-                    type: string
-                    example: "Wrong token in Auth "
-
-        403:
-          description: Not authorized
-        200:
-          description: Return list of items
-          content:
-            application/vnd.company.shop.v1+json:
-              schema:
-                type: object
-                properties:
-                  pagination:
-                    type: object
-                    properties:
-                      next_page: 
-                        type: string
-                        example: "/items?cursor=example_string_123"
-                      previous_page: 
-                        type: string
-                        example: "/items?cursor=example_string_312"
-                  data:
-                    type: array
-                    items:
-                      $ref: '#components/schemas/item'
 security:
    - ApiKey: []                
 components:
-  schemas:
-    item:
-      type: object
-      properties:
-          id:
-            type: string
-            format: uuid
-            description: Id of an item
-          price_in_cents:
-            type: integer
-            example: 1000
-          title:
-            type: string
-            example:
-          description:
-            type: string
-            example: Jack Sparrow
   securitySchemes:
       ApiKey:
          type: apiKey
