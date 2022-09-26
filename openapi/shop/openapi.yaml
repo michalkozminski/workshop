@@ -1,10 +1,15 @@
 openapi: 3.0.0
 info:
   title: Shop
-  version: 0.0.1
+  version: 1.0.1
 paths:
   /kittens:
     get:
+      parameters:
+        - in: query
+          name: limit
+          example: 20
+          description: Default limit is 20
       summary: List all Kittens
       responses:
         401:
