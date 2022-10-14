@@ -10,6 +10,11 @@ paths:
           name: limit
           example: 20
           description: Default limit is 20
+          schema:
+            type: number
+            maximum: 100
+            minimum: 1
+
       summary: List all Kittens
       responses:
         401:
